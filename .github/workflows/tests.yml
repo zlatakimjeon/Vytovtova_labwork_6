@@ -20,10 +20,12 @@ jobs:
       - name: Install GCC (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
         run: sudo apt update && sudo apt install -y build-essential
+        shell: bash
 
       - name: Install GCC (Windows)
         if: matrix.os == 'windows-latest'
         run: choco install mingw -y
+        shell: bash
 
       - name: Build project
         run: make all
@@ -35,6 +37,7 @@ jobs:
             test/test.exe
           else
             ./test/test
+          fi
         shell: bash
 
       - name: Clean build

@@ -12,14 +12,18 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up GCC
-        uses: rmyorston/setup-gcc@v1
-        with:
-          version: '12'
+      - name: Install GCC (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt update && sudo apt install -y build-essential
+
+      - name: Install GCC (Windows)
+        if: matrix.os == 'windows-latest'
+        run: choco install mingw -y
 
       - name: Build project
         run: make all

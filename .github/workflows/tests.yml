@@ -27,6 +27,7 @@ jobs:
 
       - name: Build project
         run: make all
+        shell: bash
 
       - name: Run tests
         run: |
@@ -34,7 +35,8 @@ jobs:
             test/test.exe
           else
             ./test/test
-          fi
+        shell: bash
 
       - name: Clean build
         run: make clean
+        shell: bash

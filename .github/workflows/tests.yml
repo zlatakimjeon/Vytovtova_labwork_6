@@ -1,0 +1,36 @@
+name: C CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up GCC
+        uses: rmyorston/setup-gcc@v1
+        with:
+          version: '12'
+
+      - name: Build project
+        run: make all
+
+      - name: Run tests
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            test/test.exe
+          else
+            ./test/test
+          fi
+
+      - name: Clean build
+        run: make clean
